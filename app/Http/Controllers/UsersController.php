@@ -62,7 +62,7 @@ class UsersController extends Controller
         $this->authorize('update', $user);
         $this->validate($request, [
             'name' => 'required|max:50',
-            'password' => 'required|confirmed|min:6'
+            'password' => 'nullable|confirmed|min:6'
         ]);
 
         $data = [];
@@ -71,9 +71,7 @@ class UsersController extends Controller
             $data['password'] = bcrypt($request->password);
         }
         $user->update($data);
-
         session()->flash('success', '个人资料更新成功！');
-
         return redirect()->route('users.show', $user);
     }
 
